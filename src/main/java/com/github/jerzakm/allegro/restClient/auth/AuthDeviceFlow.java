@@ -1,8 +1,8 @@
-package auth;
+package com.github.jerzakm.allegro.restClient.auth;
 
 import com.google.gson.Gson;
-import core.AllegroAppClient;
-import model.AuthRegisterDevice;
+import com.github.jerzakm.allegro.restClient.core.AllegroAppClient;
+import com.github.jerzakm.allegro.restClient.model.AuthRegisterDevice;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
@@ -11,11 +11,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
-import java.time.Instant;
 import java.util.logging.Logger;
 
-import static core.Constant.ALLEGRO_URL;
-import static core.Constant.DEVICE_AUTH_FLOW_GRANT_TYPE;
+import static com.github.jerzakm.allegro.restClient.core.Constant.ALLEGRO_URL;
+import static com.github.jerzakm.allegro.restClient.core.Constant.DEVICE_AUTH_FLOW_GRANT_TYPE;
 
 public class AuthDeviceFlow {
     static Logger log = Logger.getLogger(AuthDeviceFlow.class.getName());
@@ -26,7 +25,7 @@ public class AuthDeviceFlow {
     public AuthDeviceFlow registerDevice(AllegroAppClient allegroAppClient) throws IOException {
         log.info("Registering device [1]");
         RequestBuilder requestBuilder = RequestBuilder.create("POST").setCharset(Charset.forName("UTF-8"));
-        requestBuilder.setUri(ALLEGRO_URL+"auth/oauth/device")
+        requestBuilder.setUri(ALLEGRO_URL+ "com/github/jerzakm/allegro/restClient/auth/oauth/device")
                 .addHeader("Authorization","Basic "+allegroAppClient.getAuth64())
                 .addHeader("Content-Type","application/x-www-form-urlencoded")
                 .addParameter("client_id",allegroAppClient.getClientID());
@@ -56,7 +55,7 @@ public class AuthDeviceFlow {
     public String listenForUserAuth(AllegroAppClient allegroAppClient) throws IOException {
         log.info("Listening for user confirmation on service website [3]");
         RequestBuilder requestBuilder = RequestBuilder.create("POST").setCharset(Charset.forName("UTF-8"));
-        requestBuilder.setUri(ALLEGRO_URL+"auth/oauth/token")
+        requestBuilder.setUri(ALLEGRO_URL+ "com/github/jerzakm/allegro/restClient/auth/oauth/token")
                 .addHeader("Authorization","Basic "+allegroAppClient.getAuth64())
                 .addParameter("grant_type",DEVICE_AUTH_FLOW_GRANT_TYPE)
                 .addParameter("device_code",authRegisterDevice.getDeviceCode());

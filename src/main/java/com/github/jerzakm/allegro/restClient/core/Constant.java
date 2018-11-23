@@ -1,4 +1,4 @@
-package core;
+package com.github.jerzakm.allegro.restClient.core;
 
 public class Constant {
     public static final String ALLEGRO_URL = "https://allegro.pl/";

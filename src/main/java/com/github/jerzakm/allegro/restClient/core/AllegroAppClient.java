@@ -1,12 +1,13 @@
-package core;
+package com.github.jerzakm.allegro.restClient.core;
 
+import com.github.jerzakm.allegro.restClient.model.AppType;
 import org.apache.http.client.HttpClient;
 
 import java.util.Base64;
 
 public class AllegroAppClient {
-    private String appName = "marketflow-scheduler";
-    private boolean isDeviceType;
+    private String appName;
+    private AppType appType;
     private String clientID;
     private String clientSecret;
     private HttpClient httpClient;
@@ -19,8 +20,8 @@ public class AllegroAppClient {
         return this;
     }
 
-    public AllegroAppClient setDeviceType(boolean deviceType) {
-        isDeviceType = deviceType;
+    public AllegroAppClient setAppType(AppType appType) {
+        this.appType = appType;
         return this;
     }
 
@@ -43,8 +44,8 @@ public class AllegroAppClient {
         return appName;
     }
 
-    public boolean isDeviceType() {
-        return isDeviceType;
+    public AppType getAppType() {
+        return appType;
     }
 
     public String getClientID() {

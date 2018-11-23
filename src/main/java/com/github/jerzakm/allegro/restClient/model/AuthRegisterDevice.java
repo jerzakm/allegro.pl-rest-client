@@ -1,4 +1,4 @@
-package model;
+package com.github.jerzakm.allegro.restClient.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
