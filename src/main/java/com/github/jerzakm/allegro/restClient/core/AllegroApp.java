@@ -1,42 +1,36 @@
 package com.github.jerzakm.allegro.restClient.core;
 
-import com.github.jerzakm.allegro.restClient.model.AppType;
-import org.apache.http.client.HttpClient;
+import com.github.jerzakm.allegro.restClient.auth.model.AppType;
+import com.github.jerzakm.allegro.restClient.auth.model.UserAuthStatus;
 
 import java.util.Base64;
 
-public class AllegroAppClient {
+public class AllegroApp {
     private String appName;
     private AppType appType;
     private String clientID;
     private String clientSecret;
-    private HttpClient httpClient;
 
-    public AllegroAppClient() {
+    public AllegroApp() {
     }
 
-    public AllegroAppClient setAppName(String appName) {
+    public AllegroApp setAppName(String appName) {
         this.appName = appName;
         return this;
     }
 
-    public AllegroAppClient setAppType(AppType appType) {
+    public AllegroApp setAppType(AppType appType) {
         this.appType = appType;
         return this;
     }
 
-    public AllegroAppClient setClientID(String clientID) {
+    public AllegroApp setClientID(String clientID) {
         this.clientID = clientID;
         return this;
     }
 
-    public AllegroAppClient setClientSecret(String clientSecret) {
+    public AllegroApp setClientSecret(String clientSecret) {
         this.clientSecret = clientSecret;
-        return this;
-    }
-
-    public AllegroAppClient setHttpClient(HttpClient httpClient) {
-        this.httpClient = httpClient;
         return this;
     }
 
@@ -54,10 +48,6 @@ public class AllegroAppClient {
 
     public String getClientSecret() {
         return clientSecret;
-    }
-
-    public HttpClient getHttpClient() {
-        return httpClient;
     }
 
     public String getAuth64() {

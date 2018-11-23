@@ -1,6 +1,7 @@
 package com.github.jerzakm.allegro.restClient.core;
 
-public class Constant {
+public final class Constant {
     public static final String ALLEGRO_URL = "https://allegro.pl/";
-    public static final String DEVICE_AUTH_FLOW_GRANT_TYPE = "urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Adevice_code";
+    public static final String ALLEGRO_API = "https://api.allegro.pl/";
+
 }
