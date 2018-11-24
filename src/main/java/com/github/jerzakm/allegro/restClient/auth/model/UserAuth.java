@@ -3,7 +3,7 @@ package com.github.jerzakm.allegro.restClient.auth.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class UserAuthStatus {
+public class UserAuth {
 
     @SerializedName("access_token")
     @Expose

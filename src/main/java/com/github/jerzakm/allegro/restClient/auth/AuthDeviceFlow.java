@@ -1,7 +1,7 @@
 package com.github.jerzakm.allegro.restClient.auth;
 
 import com.github.jerzakm.allegro.restClient.auth.model.AllegroError;
-import com.github.jerzakm.allegro.restClient.auth.model.UserAuthStatus;
+import com.github.jerzakm.allegro.restClient.auth.model.UserAuth;
 import com.google.gson.Gson;
 import com.github.jerzakm.allegro.restClient.core.AllegroApp;
 import com.github.jerzakm.allegro.restClient.auth.model.AuthRegisterDevice;
@@ -36,7 +36,7 @@ public class AuthDeviceFlow {
         return this;
     }
 
-    public AuthDeviceFlow registerDevice(UserAuthStatus userAuthStatus) throws IOException {
+    public AuthDeviceFlow registerDevice(UserAuth userAuth) throws IOException {
         log.info("Registering device [1]");
         RequestBuilder requestBuilder = RequestBuilder.create("POST").setCharset(Charset.forName("UTF-8"));
         requestBuilder.setUri(ALLEGRO_URL+ "auth/oauth/device")
@@ -67,7 +67,7 @@ public class AuthDeviceFlow {
         return this.authRegisterDevice.getVerificationUriComplete();
     }
 
-    public UserAuthStatus listenForUserAuth() throws IOException {
+    public UserAuth listenForUserAuth() throws IOException {
         log.info("Listening for user confirmation on service website [3]");
         RequestBuilder requestBuilder = RequestBuilder.create("POST").setCharset(Charset.forName("UTF-8"));
         requestBuilder.setUri(ALLEGRO_URL+ "auth/oauth/token")
@@ -90,9 +90,9 @@ public class AuthDeviceFlow {
 
         Gson gson = new Gson();
 
-        UserAuthStatus status = new UserAuthStatus();
+        UserAuth status = new UserAuth();
         if(json.contains("access_token")) {
-            status = gson.fromJson(json, UserAuthStatus.class);
+            status = gson.fromJson(json, UserAuth.class);
             log.info("Listenting for user confirmation [3] Registered to: "+status.getScope()+" expires in: "+status.getExpiresIn());
             this.authenticated = true;
             return status;
@@ -104,13 +104,13 @@ public class AuthDeviceFlow {
         }
     }
 
-    public UserAuthStatus refreshUserAuth(UserAuthStatus userAuthStatus) throws IOException {
+    public UserAuth refreshUserAuth(UserAuth userAuth) throws IOException {
 
         RequestBuilder requestBuilder = RequestBuilder.create("POST").setCharset(Charset.forName("UTF-8"));
         requestBuilder.setUri(ALLEGRO_URL+ "auth/oauth/token")
                 .addHeader("Authorization","Basic "+ allegroApp.getAuth64())
                 .addParameter("grant_type","refresh_token")
-                .addParameter("refresh_token", userAuthStatus.getRefreshToken());
+                .addParameter("refresh_token", userAuth.getRefreshToken());
         HttpUriRequest request = requestBuilder.build();
 
         HttpResponse response = this.httpClient.execute(request);
@@ -126,15 +126,15 @@ public class AuthDeviceFlow {
 
         Gson gson = new Gson();
         if(json.contains("access_token")) {
-            userAuthStatus = gson.fromJson(json, UserAuthStatus.class);
-            log.info("Refreshing token for: "+userAuthStatus.getScope()+" expires in: "+userAuthStatus.getExpiresIn());
+            userAuth = gson.fromJson(json, UserAuth.class);
+            log.info("Refreshing token for: "+ userAuth.getScope()+" expires in: "+ userAuth.getExpiresIn());
             this.authenticated = true;
-            return userAuthStatus;
+            return userAuth;
         } else {
             AllegroError error = gson.fromJson(json,AllegroError.class);
             log.warning("Error refreshing token "+error.getErrorDescription());
             this.authenticated = false;
-            return userAuthStatus;
+            return userAuth;
         }
     }
 

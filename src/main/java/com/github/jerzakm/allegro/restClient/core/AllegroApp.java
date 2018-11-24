@@ -1,7 +1,6 @@
 package com.github.jerzakm.allegro.restClient.core;
 
 import com.github.jerzakm.allegro.restClient.auth.model.AppType;
-import com.github.jerzakm.allegro.restClient.auth.model.UserAuthStatus;
 
 import java.util.Base64;
 
