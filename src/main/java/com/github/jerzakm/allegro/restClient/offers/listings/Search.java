@@ -92,13 +92,8 @@ public class Search {
         while ((line = rd.readLine()) != null) {sb.append(line);}
 
         Gson gson = new Gson();
-        ListingResponse listingResponse = gson.fromJson(sb.toString(),ListingResponse.class);
 
-        listingResponse.getItems().getRegular().forEach(item -> {
-            System.out.println(item.getName());
-        });
-
-        return listingResponse;
+        return gson.fromJson(sb.toString(),ListingResponse.class);
     }
 
     public Search buildQuery() {
