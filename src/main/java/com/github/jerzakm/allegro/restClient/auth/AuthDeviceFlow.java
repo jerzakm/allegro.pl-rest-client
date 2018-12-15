@@ -133,6 +133,7 @@ public class AuthDeviceFlow {
         } else {
             AllegroError error = gson.fromJson(json,AllegroError.class);
             log.warning("Error refreshing token "+error.getErrorDescription());
+            userAuth.setAccessToken("ERROR");
             this.authenticated = false;
             return userAuth;
         }
