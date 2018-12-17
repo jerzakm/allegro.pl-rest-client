@@ -1,10 +1,11 @@
 package com.github.jerzakm.allegro.restClient.offers.listings;
 
+import com.github.jerzakm.allegro.restClient.auth.model.AllegroError;
 import com.github.jerzakm.allegro.restClient.auth.model.UserAuth;
+import com.github.jerzakm.allegro.restClient.core.AllegroApiResponse;
 import com.github.jerzakm.allegro.restClient.core.Query;
 import com.github.jerzakm.allegro.restClient.model.ListingResponse;
 import com.google.gson.Gson;
-import com.google.gson.stream.JsonReader;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpUriRequest;
@@ -16,7 +17,6 @@ import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 
 import static com.github.jerzakm.allegro.restClient.core.Constant.ALLEGRO_API;
-import static com.github.jerzakm.allegro.restClient.offers.listings.SearchMode.REGULAR;
 
 public class Search {
     private Query query;
@@ -80,7 +80,7 @@ public class Search {
         return this;
     }
 
-    public ListingResponse executeWithClient(HttpClient httpClient) throws IOException {
+    public AllegroApiResponse executeWithClient(HttpClient httpClient) throws IOException {
 
         HttpResponse response = httpClient.execute(this.uriRequest);
         BufferedReader rd = new BufferedReader(new InputStreamReader(
@@ -93,7 +93,16 @@ public class Search {
 
         Gson gson = new Gson();
 
-        return gson.fromJson(sb.toString(),ListingResponse.class);
+        AllegroApiResponse allegroApiResponse = new AllegroApiResponse();
+        if(sb.toString().contains("error")) {
+            AllegroError allegroError= gson.fromJson(sb.toString(),AllegroError.class);
+            allegroApiResponse.setError(allegroError);
+        } else {
+            ListingResponse lr = gson.fromJson(sb.toString(),ListingResponse.class);
+            allegroApiResponse.setResponseBody(lr);
+        }
+
+        return allegroApiResponse;
     }
 
     public Search buildQuery() {
