@@ -18,11 +18,11 @@ import java.nio.charset.Charset;
 
 import static com.github.jerzakm.allegro.restClient.core.Constant.ALLEGRO_API;
 
-public class Search {
+public class ListingSearch {
     private Query query;
     private HttpUriRequest uriRequest;
 
-    public Search(UserAuth userAuth) {
+    public ListingSearch(UserAuth userAuth) {
         this.query = new Query()
                 .addHeader("Content-Type","application/vnd.allegro.public.v1+json")
                 .addHeader("Accept","application/vnd.allegro.public.v1+json")
@@ -30,52 +30,52 @@ public class Search {
 
     }
 
-    public Search setCategoryId(String categoryId) {
+    public ListingSearch setCategoryId(String categoryId) {
         this.query.addParameter("category.id",categoryId);
         return this;
     }
 
-    public Search setSearchPhrase(String phrase) {
+    public ListingSearch setSearchPhrase(String phrase) {
         this.query.addParameter("phrase",phrase);
         return this;
     }
 
-    public Search addSellerId(String sellerId) {
+    public ListingSearch addSellerId(String sellerId) {
         this.query.addParameter("seller.id",sellerId);
         return this;
     }
 
-    public Search setSearchMode(SearchMode searchMode) {
+    public ListingSearch setSearchMode(SearchMode searchMode) {
         this.query.addParameter("searchMode", String.valueOf(searchMode));
         return this;
     }
 
-    public Search setOffset (int offset) {
+    public ListingSearch setOffset (int offset) {
         this.query.addParameter("offset", String.valueOf(offset));
         return this;
     }
 
-    public Search setLimit (int limit) {
+    public ListingSearch setLimit (int limit) {
         this.query.addParameter("limit", String.valueOf(limit));
         return this;
     }
 
-    public Search sort(Sorting sorting) {
+    public ListingSearch sort(Sorting sorting) {
         this.query.addParameter("sort",sorting.getString());
         return this;
     }
 
-    public Search outputInclude(String include) {
+    public ListingSearch outputInclude(String include) {
         this.query.addParameter("include", include);
         return this;
     }
 
-    public Search fallbackResults(boolean fallback) {
+    public ListingSearch fallbackResults(boolean fallback) {
         this.query.addParameter("fallback", String.valueOf(fallback));
         return this;
     }
 
-    public Search addParameter(String param, String value) {
+    public ListingSearch addParameter(String param, String value) {
         query.addParameter(param,value);
         return this;
     }
@@ -105,7 +105,7 @@ public class Search {
         return allegroApiResponse;
     }
 
-    public Search buildQuery() {
+    public ListingSearch buildQuery() {
         RequestBuilder requestBuilder = RequestBuilder.create("GET")
                 .setCharset(Charset.forName("UTF-8"))
                 .setUri(ALLEGRO_API + "offers/listing");
