@@ -4,7 +4,6 @@ import com.github.jerzakm.allegro.restClient.auth.model.AllegroError;
 import com.github.jerzakm.allegro.restClient.auth.model.UserAuth;
 import com.github.jerzakm.allegro.restClient.core.AllegroApiResponse;
 import com.github.jerzakm.allegro.restClient.core.Query;
-import com.github.jerzakm.allegro.restClient.offers.listings.ListingSearch;
 import com.google.gson.Gson;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -18,31 +17,32 @@ import java.nio.charset.Charset;
 
 import static com.github.jerzakm.allegro.restClient.core.Constant.ALLEGRO_API;
 
-public class ListDisputes {
+public class DisputeMessages {
     private Query query;
     private HttpUriRequest uriRequest;
+    private String disputeId;
 
-    public ListDisputes(UserAuth userAuth) {
+    public DisputeMessages(UserAuth userAuth, String disputeId) {
         this.query = new Query()
                 .addHeader("Content-Type","application/vnd.allegro.public.v1+json")
                 .addHeader("Accept","application/vnd.allegro.public.v1+json")
                 .addHeader("Authorization", "Bearer "+userAuth.getAccessToken());
+        this.disputeId = disputeId;
     }
 
-    public ListDisputes setLimit(int limit) {
-        this.query.addParameter("limit", String.valueOf(limit));
+    public String getDisputeId() {
+        return disputeId;
+    }
+
+    public DisputeMessages setDisputeId(String disputeId) {
+        this.disputeId = disputeId;
         return this;
     }
 
-    public ListDisputes setOffset(int offset) {
-        this.query.addParameter("offset", String.valueOf(offset));
-        return this;
-    }
-
-    public ListDisputes buildQuery() {
+    public DisputeMessages buildQuery() {
         RequestBuilder requestBuilder = RequestBuilder.create("GET")
                 .setCharset(Charset.forName("UTF-8"))
-                .setUri(ALLEGRO_API + "sale/disputes");
+                .setUri(ALLEGRO_API + "sale/disputes/"+disputeId+"/messages");
 
         this.query.getHeaders().forEach(h -> requestBuilder.addHeader(h.getKey(),h.getValue()));
         this.query.getParameters().forEach(p -> requestBuilder.addParameter(p.getKey(),p.getValue()));
@@ -74,4 +74,6 @@ public class ListDisputes {
 
         return allegroApiResponse;
     }
+
+
 }
