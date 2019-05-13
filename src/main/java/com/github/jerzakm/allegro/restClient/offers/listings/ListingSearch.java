@@ -30,6 +30,14 @@ public class ListingSearch {
 
     }
 
+    public Query getQuery() {
+        return query;
+    }
+
+    public HttpUriRequest getUriRequest() {
+        return uriRequest;
+    }
+
     public ListingSearch setCategoryId(String categoryId) {
         this.query.addParameter("category.id",categoryId);
         return this;
